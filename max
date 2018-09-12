@@ -1,0 +1,30 @@
+/**
+ *
+ * @author Skiff
+ */
+public class Max {
+
+    private static int recursiveMax(int[] numbers) {
+        return recursiveMax(numbers, numbers.length - 1, 0);
+    }
+    
+    private static int recursiveMax(int[] numbers, int position, int currentMax) {             
+        //avoids empty list errors
+        if (position < 0) {
+            return currentMax;
+        }
+        if (numbers[position] > currentMax) {
+            currentMax = numbers[position];
+        }
+        return recursiveMax(numbers, position - 1, currentMax);
+    }
+    
+    public static void main(String[] args) {
+        
+        int[] numberList = {19, 34, 15, 6, 33, 8};
+        
+        System.out.println( recursiveMax(numberList) );
+        
+    }
+    
+}
