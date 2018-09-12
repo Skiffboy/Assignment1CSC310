@@ -1,0 +1,108 @@
+import java.util.Scanner;
+/**
+ *
+ * @author Skiff
+ */
+class gameLoop {
+    Scanner in = new Scanner(System.in);
+    String[] board;
+    String turn = "X";
+    
+    gameLoop(String[] passedBoard) {
+        board = passedBoard;
+    }
+    
+    void printBoard() {
+        System.out.println(board[0] + " | " + board[1] + " | " + board[2]);
+        System.out.println("---------");
+        System.out.println(board[3] + " | " + board[4] + " | " + board[5]);
+        System.out.println("---------");
+        System.out.println(board[6] + " | " + board[7] + " | " + board[8]);
+    }
+    
+    boolean checkFull() {
+        for (int i = 0; i < 9; i++) {
+            if (board[i].equals(" ")) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    void checkWin() {
+        for (int i = 0; i < 8; i++) {
+            String line = "";
+            switch (i) {
+                case 0:
+                    line = board[0] + board[1] + board[2];
+                    break;
+                case 1:
+                    line = board[3] + board[4] + board[5];
+                    break;
+                case 2:
+                    line = board[6] + board[7] + board[8];
+                    break;
+                case 3:
+                    line = board[0] + board[3] + board[6];
+                    break;
+                case 4:
+                    line = board[1] + board[4] + board[7];
+                    break;
+                case 5:
+                    line = board[2] + board[5] + board[8];
+                    break;
+                case 6:
+                    line = board[0] + board[4] + board[8];
+                    break;
+                case 7:
+                    line = board[2] + board[4] + board[6];
+                    break;
+            }
+            if (line.equals("XXX")) {
+                System.out.println("X wins");
+                System.exit(0);
+            } else if (line.equals("OOO")) {
+                System.out.println("O wins");
+                System.exit(0);
+            } else if ( checkFull() == true ) {
+                System.out.println("Draw");
+                System.exit(0);
+            }
+        }
+    }
+    
+    void executeTurn() {
+        checkWin();
+        System.out.println(turn + " choose a spot to place your piece (1 - 9).");
+        int place = in.nextInt();
+        while ( !board[place - 1].equals(" ") || (place < 1 || place > 9)) {
+            System.out.println("Please enter a different position.");
+            place = in.nextInt();
+        }
+        board[place - 1] = turn;
+        if (turn.equals("X")) {
+            turn = "O";
+        } else {
+            turn = "X";
+        }
+    }
+    
+}
+
+public class Tictactoe {
+ 
+    public static void main(String[] args) {
+        String[] board = {" ", " ", " ",
+                          " ", " ", " ",
+                          " ", " ", " "};
+        gameLoop test = new gameLoop( board );
+        
+        System.out.println("Welcome to tic-tac-toe.\nX plays first.");
+        test.printBoard();       
+        for (int i = 0; i < 10; i++) {
+            test.executeTurn();
+            test.printBoard();
+        }
+    }
+    
+}
